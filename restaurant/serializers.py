@@ -86,12 +86,21 @@ class NonNullProduitSerializer(serializers.ModelSerializer):
         model = Produit
         fields = "__all__"
 
+class TypeIngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeIngredient
+        fields = "__all__"
+
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = "__all__"
 
+class TypeSupplementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeSupplement
+        fields = "__all__"
 
 class SupplementSerializer(serializers.ModelSerializer):
     class Meta:
@@ -113,4 +122,9 @@ class FormulaireContactSerializer(serializers.ModelSerializer):
                   "message",
                   "date_message",
                   ]
+
+class ZoneLivraisonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ZoneLivraison
+        fields = "__all__"
 

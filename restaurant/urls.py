@@ -20,8 +20,14 @@ urlpatterns = [
     path('produit/', ProduitView.as_view()),
     path('produit/<int:pk>/', ProduitDetailsView.as_view()),
 
+    path('type_ingredient/', TypeIngredientView.as_view()),
+    path('type_ingredient/<int:pk>/', TypeIngredientDetailView.as_view()),
+
     path('ingredient/', IngredientView.as_view()),
     path('ingredient/<int:pk>/', IngredientDetailView.as_view()),
+
+    path('type_supplement/', TypeSupplementView.as_view()),
+    path('type_supplement/<int:pk>/', TypeSupplementDetailView.as_view()),
 
     path('supplement/', SupplementView.as_view()),
     path('supplement/<int:pk>/', SupplementDetailView.as_view()),
@@ -33,4 +39,7 @@ urlpatterns = [
 
     path('contact/',FormulaireContactView.as_view()),
     path('contact/<int:pk>/',FormulaireContactDetailView.as_view()),
+
+    path('zone-livraison/',ZoneLivraisonView.as_view()),
+    path('zone-livraison/<int:pk>/',ZoneLivraisonDetailsView.as_view()),
 ]

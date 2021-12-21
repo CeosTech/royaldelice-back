@@ -5,4 +5,5 @@ from restaurant.models import *
 admin.site.register(Categorie)
 admin.site.register(Produit)
 admin.site.register(Info_Restaurant)
+admin.site.register(ZoneLivraison)
 

@@ -73,6 +73,18 @@ class ProduitDetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProduitSerializer
 
 
+class TypeIngredientView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = TypeIngredient.objects.all()
+    serializer_class = TypeIngredientSerializer
+    filter_backends = (filters.OrderingFilter, DjangoFilterBackend)
+    filterset_fields = "__all__"
+
+class TypeIngredientDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = TypeIngredient.objects.all()
+    serializer_class = TypeIngredientSerializer
+
 
 class IngredientView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny,]
@@ -85,6 +97,19 @@ class IngredientDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny,]
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+
+
+class TypeSupplementView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = TypeSupplement.objects.all()
+    serializer_class = TypeSupplementSerializer
+    filter_backends = (filters.OrderingFilter, DjangoFilterBackend)
+    filterset_fields = "__all__"
+
+class TypeSupplementDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = TypeSupplement.objects.all()
+    serializer_class = TypeSupplementSerializer
 
 
 class SupplementView(generics.ListCreateAPIView):
@@ -126,3 +151,20 @@ class FormulaireContactDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny,]
     serializer_class = FormulaireContactSerializer
     queryset = FormulaireContact.objects.all()
+
+class ZoneLivraisonView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = ZoneLivraison.objects.all()
+    serializer_class = ZoneLivraisonSerializer
+    filter_backends = (filters.OrderingFilter, DjangoFilterBackend)
+    filterset_fields = ['nom']
+
+    def filter_queryset(self, queryset):
+        queryset = super(ZoneLivraisonView, self).filter_queryset(queryset)
+        return queryset.order_by('nom')
+
+
+class ZoneLivraisonDetailsView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.AllowAny,]
+    queryset = ZoneLivraison.objects.all()
+    serializer_class = ZoneLivraisonSerializer
