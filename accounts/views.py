@@ -35,3 +35,4 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = [permission]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
