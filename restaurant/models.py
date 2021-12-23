@@ -32,6 +32,7 @@ class Produit(models.Model):
     image = models.ImageField(null=True, upload_to='static/images')
     prix = models.FloatField(default=0, blank=True)
     disponibilite = models.BooleanField(default=False, null=True)
+    supplement = models.BooleanField(default=False, null=True)
     commentaire_produit = models.TextField(null=True, blank=True)
 
     # accompagnement => frite / texmet (categorie)
@@ -92,6 +93,9 @@ class Ingredient(models.Model):  # sandwich /
     # Champs commun pour tous les suppléments du restaurant
     typeIngredient = models.ForeignKey(
         TypeIngredient, null=True, on_delete=models.CASCADE, blank=True)
+    categorie = models.ForeignKey(
+        Categorie, null=True, on_delete=models.CASCADE, blank=True)
+    disponibilite = models.BooleanField(default=False, null=True)
     nom = models.CharField(max_length=100, unique=True)
     """ ingredients = (
         ('Pain', 'pain'),
@@ -122,6 +126,8 @@ class Supplement(models.Model):  # sauce / chedar frites /
     nom = models.CharField(max_length=100, unique=True)
     type_supplement = models.ForeignKey(
         TypeSupplement, null=True, on_delete=models.CASCADE, blank=True)
+    categorie = models.ForeignKey(
+        Categorie, null=True, on_delete=models.CASCADE, blank=True)
     prix = models.FloatField(default=0, blank=True)
     disponibilite = models.BooleanField(default=False, null=True)
     # Champs spécifiques

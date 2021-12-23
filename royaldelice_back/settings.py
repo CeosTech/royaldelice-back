@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "*",
     "127.0.0.1:8000",
-    "https://lemustang.herokuapp.com/"
+    "https://royaldelice.herokuapp.com/"
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
@@ -205,16 +205,16 @@ SIMPLE_JWT = {
 }
 
 # keys from Stripe API (final product)
-#STRIPE_PUBLIC_KEY = ""
-#STRIPE_SECRET_KEY = ""
+#STRIPE_PUBLIC_KEY = "pk_live_5LbTSWNzdQ3stwG1bJOI7J9T00P1Iyi9EW"
+#STRIPE_SECRET_KEY = "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"
 #STRIPE_WEBHOOK_SECRET = ""
 
 # test keys
 STRIPE_TPK = ""
 STRIPE_TSK = ""
 
-STRIPE_PUBLIC_KEY = "pk_live_5LbTSWNzdQ3stwG1bJOI7J9T00P1Iyi9EW"
-STRIPE_SECRET_KEY = "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"
+STRIPE_PUBLIC_KEY = "pk_test_51JQbyUBhzB2sWGdwYp4kiS3ib25g9FigjZGtpqJhN1PyoRFNR2u4YKKi2tKrpc31w18fa8nevHEPlNoHaw2SlgJZ00ZTJYOHsC"
+STRIPE_SECRET_KEY = "sk_test_51JQbyUBhzB2sWGdwjFFezHBYVAFwjCkftVLhZq3dgq62yknWifuQj83OhzR5A7UHmSNAOYKn6lhbz0kfBDcCzXOs00z6SpYuQz"
 
 
 # STATIC_ROOT = Path(BASE_DIR) / 'staticfiles'
