@@ -162,6 +162,7 @@ class ZoneLivraison(models.Model):
     nom = models.CharField(max_length=50, unique=True)
     montant = models.FloatField(default=0, blank=True)
     description = models.CharField(max_length=2000)
+    frais = models.FloatField(default=0, blank=True)
 
     def __str__(self):
         return self.nom
