@@ -30,8 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "*",
     "127.0.0.1:8000",
-    "https://deux-freres-roissy.herokuapp.com/"
-    
+    "https://royaldelice.herokuapp.com/"
+
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
