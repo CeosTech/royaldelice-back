@@ -41,7 +41,6 @@ class Info_RestaurantDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Info_RestaurantSerializer
 
 
-
 class CategorieView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny,]
     queryset = Categorie.objects.all()
