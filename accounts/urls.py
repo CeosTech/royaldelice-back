@@ -1,6 +1,7 @@
 from django.urls import path, include
 from accounts.views import RestaurantOwnerDetail, RestaurantOwnerCreation, RestaurantOwnerList, UserCreate
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from . import views
 urlpatterns = [
     path('restaurantowner/', RestaurantOwnerList.as_view()),
     path('register/', RestaurantOwnerCreation.as_view()),
@@ -12,4 +13,6 @@ urlpatterns = [
     #JWT urls
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh', TokenRefreshView.as_view()),
+    path('auth/', views.auth),
+    path('verify/', views.verify2FA)
 ]
