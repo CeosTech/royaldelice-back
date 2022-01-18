@@ -75,9 +75,9 @@ MIDDLEWARE = [
 ]
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hokfanizd',
-    'API_KEY': '148769698186699',
-    'API_SECRET': '_-ITqS_SMH2_UbnHhWzf1QlxNIk',
+    'CLOUD_NAME': 'hhezv16sv',
+    'API_KEY': '538375941866213',
+    'API_SECRET': '4RbhT2kJSgZmTWeK-qNmM1rEHNE',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
