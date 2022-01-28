@@ -67,7 +67,7 @@ can Auth => the user is allow to try to authentificate
  @param : request
 """
 def checkAuth(request):
-    if ('count' in request.session) == False: # If there is no "count" yet in request.session
+    if ('count' in request.session) == False: # If there is no "count" value yet in request.session
         request.session["count"] = 0
         request.session["canAuth"] = True
         request.session.modified = True
@@ -76,7 +76,7 @@ def checkAuth(request):
         request.session["canAuth"] = False
 
         today = datetime.now()
-        dateLimit = today + timedelta(minutes=1) # add 10 minutes
+        dateLimit = today + timedelta(minutes=10) # add 10 minutes
         request.session["dateLimit"] = dateLimit.isoformat()
         request.session.modified = True
 
