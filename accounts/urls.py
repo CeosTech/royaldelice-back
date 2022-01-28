@@ -14,6 +14,6 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh', TokenRefreshView.as_view()),
     path('auth/', views.auth),
-    path('canAuth', views.getCanAuth),
+    path('canAuth/', views.getCanAuth),
     path('verify/', views.verify2FA)
 ]
