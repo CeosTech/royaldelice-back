@@ -8,8 +8,12 @@ from email.mime.text import MIMEText
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-import time
 import pyotp
+
+#For auth counting 
+import json
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -21,8 +25,8 @@ from rest_framework import generics, permissions
 from .models import RestaurantOwner
 from django_filters.rest_framework import DjangoFilterBackend
 
-permission = permissions.AllowAny
 
+permission = permissions.AllowAny
 
 class RestaurantOwnerCreation(generics.CreateAPIView):
     permission_classes = [permission]
@@ -49,16 +53,71 @@ class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+""" 
+* To note : * 
+request.session[ username, password, count, dateLimit, canAuth]
+username & password => user's informations to log in
+count => count the connection attemps
+dateLimit => date the user can reconnect after being blocked for 5 mins
+can Auth => the user is allow to try to authentificate
+"""
+
+"""
+ Check user's attempt to connect
+ @param : request
+"""
+def checkAuth(request):
+    if ('count' in request.session) == False: # If there is no "count" yet in request.session
+        request.session["count"] = 0
+        request.session["canAuth"] = True
+        request.session.modified = True
+
+    elif request.session["count"] >= 3 and not 'dateLimit' in request.session : # If the user do 3 attempts of connection
+        request.session["canAuth"] = False
+
+        today = datetime.now()
+        dateLimit = today + timedelta(minutes=1) # add 10 minutes
+        request.session["dateLimit"] = dateLimit.isoformat()
+        request.session.modified = True
+
+    elif request.session["count"] >= 3 and 'dateLimit' in request.session : # If attempt blocked, deblock after 10 minutes
+        dateLimit = datetime.strptime(request.session['dateLimit'], "%Y-%m-%dT%H:%M:%S.%f")
+        now = datetime.now()
+        if( now > dateLimit): #Compare date now with date limit, if now superior, then the user can attempts to connect again
+            del request.session["count"]
+            request.session["canAuth"] = True
+            del request.session['dateLimit']
+            request.session.modified = True
+
+"""
+ Know if the user can connect or not
+ @param : request
+ @return : object { canAuth : [list] }
+"""
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def getCanAuth(request):
+    if request.method == 'GET':
+        try:
+            checkAuth(request)
+            return Response({"canAuth": request.session['canAuth']}, 200)
+        except Exception as e:
+            return Response({"error": str(e)})
+    else:
+        return Response({"method": "Please, try again later."})
+
+
 """
  Double authentication by sending email
- @param : resquest
+ @param : request
  @return : object { promo_code : [list] }
 """
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def auth(request):
-    if request.method == 'POST':
         try:
+            checkAuth(request)
+            # Get user's log in information
             userName = request.data.get('username')
             password = request.data.get('password')
 
@@ -69,15 +128,15 @@ def auth(request):
             # result = serializers.serialize("json", queryset)
             bool = authenticate(request, username=userName, password=password)
 
-            if bool is not None:
+
+            if (bool is not None) and request.session["canAuth"]:
                 # Retrieve user information
                 informationClient = queryset.values()[::1][0]
                 email = informationClient.get("email")
                 name = informationClient.get("username")
 
-                totp = pyotp.TOTP('base32secret3232', interval=300)
+                totp = pyotp.TOTP('base32secret3232', interval=301)
                 code = totp.now() # Create a code
-                print(code)
                 
                 
                 # ===============SEND MAIL ================
@@ -128,11 +187,13 @@ def auth(request):
                 return Response(200)
 
             # Error if the password/email combinaition is incorrect.
-            return Response({"auth": "error"}, 401)
+            else :
+                count = request.session["count"]
+                request.session["count"] =  count + 1
+                #del request.session['dateLimit']
+            return Response({"auth": request.session["count"], "dateLimit": request.session["dateLimit"] if 'dateLimit' in request.session else None }, 401)
         except Exception as e:
-            return Response({"error": str(e)})
-    else:
-        return Response({"method": "Please, try again later."})
+            return Response({"error_auth": str(e)})
 
 """
  Double authentication : Code verification
@@ -143,11 +204,10 @@ def auth(request):
 def verify2FA(request):
     if request.method == 'POST':
         try:
+            checkAuth(request)
             otp = request.data.get('code')
-            print("=====otp====")
-            print(otp)
             totp = pyotp.TOTP('base32secret3232', interval=300)
-            if totp.verify(otp):
+            if totp.verify(otp) and request.session["canAuth"]:
                # inform users if OTP is valid
                if (request.data.get("username") is not None) and (request.data.get("username") is not None) :
                    return TokenObtainPairView.as_view()(request._request)
