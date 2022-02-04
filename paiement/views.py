@@ -23,10 +23,10 @@ from . import broadcast
 # stripe.api_key = "sk_test_51IIvIiJnUZH8vWLUYv5UyL8c1xsuic2ukC0MrsaidKHLcroUAcLv9CE8Ufihgy1oHsNkag9GGQBYGkcNk7RI24Kr006AGZODjU"
 
 # clé de tests 
-stripe.api_key = settings.STRIPE_TSK
+#stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # clé finale
-#stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
