@@ -206,14 +206,14 @@ def verify2FA(request):
         try:
             #checkAuth(request)
             otp = request.data.get('code')
-            totp = pyotp.TOTP('base32secret3232', interval=300)
+            totp = pyotp.TOTP('base32secret3232', interval=301)
             if totp.verify(otp) : #and request.session["canAuth"]:
 
                # inform users if OTP is valid
                if (request.data.get("username") is not None) and (request.data.get("username") is not None) :
                    return TokenObtainPairView.as_view()(request._request)
                    #return Response({"auth": "Le code est conforme"}, 201)
-            return Response({"auth": "Le code n'est pas conforme"}, 401)
+            return Response({"auth": "Le code n'est pas conforme", "code_errr": totp.verify(otp)}, 401)
         except Exception as e:
             return Response({"error": str(e)})
     else:
