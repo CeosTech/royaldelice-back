@@ -204,10 +204,11 @@ def auth(request):
 def verify2FA(request):
     if request.method == 'POST':
         try:
-            checkAuth(request)
+            #checkAuth(request)
             otp = request.data.get('code')
             totp = pyotp.TOTP('base32secret3232', interval=300)
             if totp.verify(otp) : #and request.session["canAuth"]:
+
                # inform users if OTP is valid
                if (request.data.get("username") is not None) and (request.data.get("username") is not None) :
                    return TokenObtainPairView.as_view()(request._request)
