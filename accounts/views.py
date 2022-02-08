@@ -129,7 +129,7 @@ def auth(request):
             bool = authenticate(request, username=userName, password=password)
 
 
-            if (bool is not None) and request.session["canAuth"]:
+            if (bool is not None) : #and request.session["canAuth"]:
                 # Retrieve user information
                 informationClient = queryset.values()[::1][0]
                 email = informationClient.get("email")
@@ -209,7 +209,7 @@ def verify2FA(request):
             totp = pyotp.TOTP('base32secret3232', interval=300)
             if totp.verify(otp) and request.session["canAuth"]:
                # inform users if OTP is valid
-               if (request.data.get("username") is not None) and (request.data.get("username") is not None) :
+               if (request.data.get("username") is not None): #and (request.data.get("username") is not None) :
                    return TokenObtainPairView.as_view()(request._request)
                    #return Response({"auth": "Le code est conforme"}, 201)
             return Response({"auth": "Le code n'est pas conforme"}, 401)
