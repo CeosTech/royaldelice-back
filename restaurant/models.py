@@ -14,6 +14,7 @@ class Admin_account(models.Model):  # Ajouter à l'admin Django
 class Info_Restaurant(models.Model):
     disponibilite_restaurant = models.BooleanField(default=False, null=True)
     disponibilite_livraison = models.BooleanField(default=False, null=True)
+    automatique = models.BooleanField(default=False, null=True)
 
 
 class Categorie(models.Model):  # Entrée/Plats/Dessert/
